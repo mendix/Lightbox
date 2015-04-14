@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="Lightbox.widget.dataviewLightbox" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+	<name>Dataview Lightbox</name>
+	<description>Lightbox to enlarge images in your browser window (dataview version)</description>
+	<icon></icon>
+	<properties>
+		<property key="lbImage" type="entity" isPath="yes" pathType="referenceSet">
+			<caption>Image entity</caption>
+			<category>Data source</category>
+			<description>Entity of the images to add to the lightbox. Should be a descendant of "System.Image".</description>
+		</property>
+		<property key="boxName" type="string" required="true">
+			<caption>Lightbox name</caption>
+			<category>Data source</category>
+			<description>The name used internally for the lightbox.</description>
+		</property>
+	</properties>
+</widget>

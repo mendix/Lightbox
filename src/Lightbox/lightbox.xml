@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="Lightbox.widget.lightbox" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+	<name>Lightbox</name>
+	<description>Lightbox to enlarge images in your browser window</description>
+	<icon></icon>
+	<properties>
+		<property key="lbImage" type="entity">
+			<caption>Lightbox image</caption>
+			<category>Data source</category>
+			<description>Entity of the images to add to the lightbox. Should be a descendant of "System.Image".</description>
+		</property>
+		<property key="lbImageConstraint" type="entityConstraint" required="false" entityProperty="lbImage">
+			<caption>Image constraint</caption>
+			<category>Data source</category>
+			<description>Constraint on the fetch</description>
+		</property>
+		<property key="boxName" type="string" required="true">
+			<caption>Lightbox name</caption>
+			<category>Data source</category>
+			<description>The name used internally for the lightbox.</description>
+		</property>
+	</properties>
+</widget>
