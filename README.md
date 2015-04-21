@@ -15,7 +15,7 @@ Dependent on the functionality provided by the Lightbox2 plugin.
 * jQuery 1.8.3 and Lightbox2 plugin (included)
 
 ##Configuration
-There are 2 versions available; a dataview version and a non-dataview version.
+There are 2 options available; a dataview version and a non-dataview version.
 
  
 ##Properties
@@ -26,11 +26,6 @@ There are 2 versions available; a dataview version and a non-dataview version.
 * Image constraint - Constraint on the fetch. 
 * Lightbox name - Name used for grouping the images.
 
-
-##Dataview Lightbox
-
-* Lightbox image  - Entity of the images to add to the lightbox. Should be a descendant of "System.Image".
-* Lightbox name - Name used for grouping the images.
 
 ##Known bugs
 * None
