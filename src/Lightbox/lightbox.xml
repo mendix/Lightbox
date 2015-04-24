@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="Lightbox.widget.lightbox" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+<widget id="lightbox.widget.lightbox" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
 	<name>Lightbox</name>
 	<description>Lightbox to enlarge images in your browser window</description>
 	<icon></icon>
@@ -21,3 +21,4 @@
 		</property>
 	</properties>
 </widget>
+

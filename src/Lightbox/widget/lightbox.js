@@ -1,5 +1,5 @@
 /*jslint white:true, nomen: true, plusplus: true */
-/*global mx, define, require, browser, devel, console */
+/*global mx, define, require, browser, devel, console, document, jQuery */
 /*mendix */
 /*
     lightbox
@@ -8,7 +8,7 @@
     @file      : lightbox.js
     @version   : 
     @author    : Pauline Oudeman
-    @date      : Mon, 20 Apr 2015 12:05:48 GMT
+    @date      : Fri, 24 Apr 2015 07:20:03 GMT
     @copyright : 
     @license   : 
 
@@ -18,31 +18,21 @@
 */
 
 // Required module list. Remove unnecessary modules, you can always get them back from the boilerplate.
-require({
-    packages: [{
-        name: 'jquery',
-        location: '../../widgets/lightbox/lib',
-        main: 'jquery-1.11.2.min'
-    },
-              {
-        name: 'lightbox',
-        location: '../../widgets/lightbox/lib',
-        main: 'lightbox-min'
-    }]
-}, [
+define([
     'dojo/_base/declare', 'mxui/widget/_WidgetBase', 'dijit/_TemplatedMixin',
-    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text',
-    'jquery', 'lightbox', 'dojo/text!lightbox/widget/template/lightbox.html'
-], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, $, lightbox, widgetTemplate) {
+    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text', 'dojo/html', 'dojo/_base/event',
+    'lightbox/lib/jquery-1.11.2.min', 'lightbox/lib/lightbox-min', 'dojo/text!lightbox/widget/template/lightbox.html'
+], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, html, event, _jQuery, lightbox, widgetTemplate) {
     'use strict';
 
+    var $ = jQuery.noConflict(true);
+    
     // Declare widget's prototype.
     return declare('lightbox.widget.lightbox', [_WidgetBase, _TemplatedMixin], {
+
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
-        _contextObj: null,
-        _handle: null, 
-        
+
         postCreate: function () {
 
         },
@@ -52,7 +42,7 @@ require({
                 this._contextObj = obj;
                 this._resetSubscriptions();
             }
-            this.fetchImages();
+            this._fetchImages();
             callback();
         },
 
@@ -115,27 +105,40 @@ require({
                 }
 
             }
+            domConstruct.empty(this.domNode);
             domConstruct.place(imgList, this.domNode);
         },
 
+
+        // Reset subscriptions.
         _resetSubscriptions: function () {
-            // Release handle on previous object, if any.
-            if (this._handle) {
-                this.unsubscribe(this._handle);
-                this._handle = null;
+            var _objectHandle = null,
+                _attrHandle = null,
+                _validationHandle = null;
+
+            // Release handles on previous object, if any.
+            if (this._handles) {
+                this._handles.forEach(function (handle, i) {
+                    mx.data.unsubscribe(handle);
+                });
+                this._handles = [];
             }
 
+            // When a mendix object exists create subscribtions. 
             if (this._contextObj) {
-                this._handle = this.subscribe({
+
+                _objectHandle = this.subscribe({
                     guid: this._contextObj.getGuid(),
-                    callback: lang.hitch(this, function(guid){
-                        mx.data.get({
-                            guid: guid, 
-                            callback: lang.hitch(this, this._fetchImages)
-                        });
+                    callback: lang.hitch(this, function (guid) {
+                        this._fetchImages()();
                     })
                 });
+
+                this._handles = [_objectHandle];
             }
         }
     });
+});
+require(['lightbox/widget/lightbox'], function () {
+    'use strict';
 });
