@@ -6,36 +6,37 @@
     ========================
 
     @file      : lightbox.js
-    @version   : 
-    @author    : Pauline Oudeman
+    @version   : 2.1.0
+    @author    : Pauline Oudeman, J.W. Lagendijk
     @date      : Fri, 24 Apr 2015 07:20:03 GMT
-    @copyright : 
-    @license   : 
-
-    Documentation
-    ========================
-    Describe your widget here.
+    @copyright :
+    @license   : Apache License, Version 2.0
 */
 
-// Required module list. Remove unnecessary modules, you can always get them back from the boilerplate.
 define([
-    'dojo/_base/declare', 'mxui/widget/_WidgetBase', 'dijit/_TemplatedMixin',
-    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text', 'dojo/html', 'dojo/_base/event',
-    'lightbox/lib/jquery-1.11.2.min', 'lightbox/lib/lightbox-min', 'dojo/text!lightbox/widget/template/lightbox.html'
-], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, html, event, _jQuery, lightbox, widgetTemplate) {
+    'dojo/_base/declare',
+    'mxui/widget/_WidgetBase',
+    'dijit/_TemplatedMixin',
+
+    'mxui/dom',
+    'dojo/dom-style',
+    'dojo/dom-construct',
+    'dojo/_base/array',
+    'dojo/_base/lang',
+
+    'lightbox/lib/jquery-1.11.2.min',
+    'lightbox/lib/lightbox-min',
+    'dojo/text!lightbox/widget/template/lightbox.html'
+], function (declare, _WidgetBase, _TemplatedMixin, dom, domStyle, domConstruct, dojoArray, lang, _jQuery, lightbox, widgetTemplate) {
     'use strict';
 
     var $ = jQuery.noConflict(true);
-    
+
     // Declare widget's prototype.
     return declare('lightbox.widget.lightbox', [_WidgetBase, _TemplatedMixin], {
 
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
-
-        postCreate: function () {
-
-        },
 
         update: function (obj, callback) {
             if (obj) {
@@ -124,7 +125,7 @@ define([
                 this._handles = [];
             }
 
-            // When a mendix object exists create subscribtions. 
+            // When a mendix object exists create subscribtions.
             if (this._contextObj) {
 
                 _objectHandle = this.subscribe({
