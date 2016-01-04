@@ -24,13 +24,14 @@ define([
     'dojo/_base/array',
     'dojo/_base/lang',
 
-    'lightbox/lib/jquery-1.11.2.min',
-    'lightbox/lib/lightbox-min',
-    'dojo/text!lightbox/widget/template/lightbox.html'
-], function (declare, _WidgetBase, _TemplatedMixin, dom, domStyle, domConstruct, dojoArray, lang, _jQuery, lightbox, widgetTemplate) {
+    'dojo/text!lightbox/widget/template/lightbox.html',
+    'lightbox/lib/jquery',
+    'lightbox/lib/lightbox'
+
+], function (declare, _WidgetBase, _TemplatedMixin, dom, domStyle, domConstruct, dojoArray, lang, widgetTemplate, _jQuery) {
     'use strict';
 
-    var $ = jQuery.noConflict(true);
+    var $ = _jQuery.noConflict(true);
 
     // Declare widget's prototype.
     return declare('lightbox.widget.lightbox', [_WidgetBase, _TemplatedMixin], {
@@ -38,7 +39,14 @@ define([
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
 
+        postCreate: function () {
+            // uncomment the following line to enable logging
+            //logger.level(logger.DEBUG);
+            logger.debug(this.id + ".postCreate");
+        },
+
         update: function (obj, callback) {
+            logger.debug(this.id + ".update");
             if (obj) {
                 this._contextObj = obj;
                 this._resetSubscriptions();
@@ -48,6 +56,7 @@ define([
         },
 
         _fetchImages: function () {
+            logger.debug(this.id + "._fetchImages");
             var xpath = '//' + this.lbImage + this.lbImageConstraint;
             if (this._contextObj) {
                 xpath = xpath.replace('[%CurrentObject%]', this._contextObj.getGuid());
@@ -66,6 +75,7 @@ define([
         },
 
         _renderList: function (images) {
+            logger.debug(this.id + "._renderList");
             var i = null,
                 listitem = null,
                 image = null,
@@ -113,6 +123,7 @@ define([
 
         // Reset subscriptions.
         _resetSubscriptions: function () {
+            logger.debug(this.id + "._resetSubscriptions");
             var _objectHandle = null,
                 _attrHandle = null,
                 _validationHandle = null;
