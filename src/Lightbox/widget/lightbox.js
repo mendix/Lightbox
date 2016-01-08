@@ -59,7 +59,7 @@ define([
             logger.debug(this.id + "._fetchImages");
             var xpath = '//' + this.lbImage + this.lbImageConstraint;
             if (this._contextObj) {
-                xpath = xpath.replace('[%CurrentObject%]', this._contextObj.getGuid());
+                xpath = xpath.replace(/\[%CurrentObject%\]/gi, this._contextObj.getGuid());
                 mx.data.get({
                     xpath: xpath,
                     callback: lang.hitch(this, this._renderList)
@@ -141,9 +141,7 @@ define([
 
                 _objectHandle = this.subscribe({
                     guid: this._contextObj.getGuid(),
-                    callback: lang.hitch(this, function (guid) {
-                        this._fetchImages()();
-                    })
+                    callback: lang.hitch(this, this._fetchImages)
                 });
 
                 this._handles = [_objectHandle];
