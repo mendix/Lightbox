@@ -25,8 +25,8 @@ define([
     'dojo/_base/lang',
 
     'dojo/text!lightbox/widget/template/lightbox.html',
-    'lightbox/lib/jquery',
-    'lightbox/lib/lightbox'
+    'Lightbox/lib/jquery',
+    'Lightbox/lib/lightbox'
 
 ], function (declare, _WidgetBase, _TemplatedMixin, dom, domStyle, domConstruct, dojoArray, lang, widgetTemplate, _jQuery) {
     'use strict';

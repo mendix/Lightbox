@@ -1,6 +1,4 @@
-test/javasource/**/proxies/
-test/javasource/com/
-test/javasource/system/
+test/javasource/
 test/deployment/
 test/.classpath
 test/.project
@@ -8,8 +6,10 @@ test/.project
 *.tmp
 *.lock
 .idea/
-*.bak
-settings/
-node_modules/
+
 dist/
+
+node_modules/
+.editorconfig
 *DS_Store*
+.vscode/
