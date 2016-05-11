@@ -10,54 +10,65 @@ define([
     "dojo/_base/lang",
 
     "dojo/text!lightbox/widget/template/lightbox.html",
+
     "lightbox/lib/jquery",
     "lightbox/lib/lightbox"
-
-], function (declare, _WidgetBase, _TemplatedMixin, dom, domStyle, domConstruct, dojoArray, lang, widgetTemplate, _jQuery) {
+], function (declare, _WidgetBase, _TemplatedMixin, dom, domStyle, domConstruct, dojoArray, lang, widgetTemplate) {
     "use strict";
 
-    var $ = _jQuery.noConflict(true);
-
-    // Declare widget"s prototype.
     return declare("lightbox.widget.lightbox", [_WidgetBase, _TemplatedMixin], {
 
-        // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
 
-        postCreate: function () {
-            logger.debug(this.id + ".postCreate");
-        },
+        // Internal objects
+        _boxName: null,
 
         update: function (obj, callback) {
             logger.debug(this.id + ".update");
             if (obj) {
                 this._contextObj = obj;
                 this._resetSubscriptions();
+                this._setBoxName(callback);
+            } else {
+                mendix.lang.nullExec(callback);
             }
-            this._fetchImages();
-            callback();
         },
 
-        _fetchImages: function () {
+        _fetchImages: function (callback) {
             logger.debug(this.id + "._fetchImages");
             var xpath = "//" + this.lbImage + this.lbImageConstraint;
             if (this._contextObj) {
-                xpath = xpath.replace(/\[%CurrentObject%\]/gi, this._contextObj.getGuid());
+                xpath = xpath.replace(/\[%CurrentObject%\]/g, this._contextObj.getGuid());
                 mx.data.get({
                     xpath: xpath,
-                    callback: lang.hitch(this, this._renderList)
+                    callback: lang.hitch(this, this._renderList, callback)
                 });
             } else if (!this._contextObj && (xpath.indexOf("[%CurrentObject%]") > -1)) {
                 console.warn("No context for xpath, not fetching.");
+                mendix.lang.nullExec(callback);
             } else {
                 mx.data.get({
                     xpath: xpath,
-                    callback: lang.hitch(this, this._renderList)
+                    callback: lang.hitch(this, this._renderList, callback)
                 });
             }
         },
 
-        _renderList: function (images) {
+        _setBoxName: function (callback) {
+            this._boxName = this.boxName;
+            if (this.dynamicBoxName && this._contextObj) {
+                this._contextObj.fetch(this.dynamicBoxName, lang.hitch(this, function (name) {
+                    if (name) {
+                        this._boxName = name;
+                    }
+                    this._fetchImages(callback);
+                }));
+            } else {
+                this._fetchImages(callback);
+            }
+        },
+
+        _renderList: function (callback, images) {
             logger.debug(this.id + "._renderList");
             var i = null,
                 listitem = null,
@@ -67,13 +78,15 @@ define([
                 imgList = dom.create("ul", {
                     "class": this.id + "_uolist"
                 });
+
             for (i = 0; i < images.length; i++) {
                 listitem = dom.create("li");
                 image = images[i];
                 link = dom.create("a", {
                     "href": "file?target=internal&guid=" + image.getGuid(),
-                    "data-lightbox": this.boxName
+                    "data-lightbox": "mx-lightbox-" + this._boxName
                 });
+
                 domStyle.set(link, {
                     "display": "inline-block"
                 });
@@ -97,10 +110,12 @@ define([
                     domConstruct.place(link, listitem);
                     domConstruct.place(listitem, imgList);
                 }
-
             }
+
             domConstruct.empty(this.domNode);
             domConstruct.place(imgList, this.domNode);
+
+            mendix.lang.nullExec(callback);
         },
 
 
@@ -122,7 +137,7 @@ define([
             // When a mendix object exists create subscribtions.
             if (this._contextObj) {
 
-                _objectHandle = this.subscribe({
+                _objectHandle = mx.data.subscribe({
                     guid: this._contextObj.getGuid(),
                     callback: lang.hitch(this, this._fetchImages)
                 });
@@ -132,6 +147,5 @@ define([
         }
     });
 });
-require(["lightbox/widget/lightbox"], function () {
-    "use strict";
-});
+
+require(["lightbox/widget/lightbox"]);

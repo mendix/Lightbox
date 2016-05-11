@@ -19,5 +19,21 @@
 			<category>Data source</category>
 			<description>The name used internally for the lightbox.</description>
 		</property>
+		<property key="lbImageGroup" type="entity" required="false">
+			<caption>Lightbox group</caption>
+			<category>Data source</category>
+			<description>Entity of the image group (used for grouping images in lightbox albums)</description>
+		</property>
+		<property key="dynamicBoxName" entityProperty="lbImageGroup" pathType="reference" allowNonPersistableEntities="true" type="attribute" required="false" isPath="optional" defaultValue="">
+			<caption>Dynamic Box Name</caption>
+			<category>Data source</category>
+			<description>(Optional) This will override the Lightbox name that is used internally. Reference from Lightbox group.</description>
+			<attributeTypes>
+				<attributeType name="AutoNumber"></attributeType>
+				<attributeType name="Integer"></attributeType>
+                <attributeType name="Long"></attributeType>
+ 				<attributeType name="String"></attributeType>
+ 			</attributeTypes>
+		</property>        
 	</properties>
 </widget>
