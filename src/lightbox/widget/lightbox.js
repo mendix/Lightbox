@@ -13,7 +13,7 @@ define([
 
     "lightbox/lib/jquery",
     "lightbox/lib/lightbox"
-], function (declare, _WidgetBase, _TemplatedMixin, dom, domStyle, domConstruct, dojoArray, lang, widgetTemplate) {
+], function(declare, _WidgetBase, _TemplatedMixin, dom, domStyle, domConstruct, dojoArray, lang, widgetTemplate) {
     "use strict";
 
     return declare("lightbox.widget.lightbox", [_WidgetBase, _TemplatedMixin], {
@@ -23,7 +23,7 @@ define([
         // Internal objects
         _boxName: null,
 
-        update: function (obj, callback) {
+        update: function(obj, callback) {
             logger.debug(this.id + ".update");
             if (obj) {
                 this._contextObj = obj;
@@ -34,7 +34,7 @@ define([
             }
         },
 
-        _fetchImages: function (callback) {
+        _fetchImages: function(callback) {
             logger.debug(this.id + "._fetchImages");
             var xpath = "//" + this.lbImage + this.lbImageConstraint;
             if (this._contextObj) {
@@ -54,10 +54,10 @@ define([
             }
         },
 
-        _setBoxName: function (callback) {
+        _setBoxName: function(callback) {
             this._boxName = this.boxName;
             if (this.dynamicBoxName && this._contextObj) {
-                this._contextObj.fetch(this.dynamicBoxName, lang.hitch(this, function (name) {
+                this._contextObj.fetch(this.dynamicBoxName, lang.hitch(this, function(name) {
                     if (name) {
                         this._boxName = name;
                     }
@@ -68,7 +68,7 @@ define([
             }
         },
 
-        _renderList: function (callback, images) {
+        _renderList: function(callback, images) {
             logger.debug(this.id + "._renderList");
             var i = null,
                 listitem = null,
@@ -83,7 +83,7 @@ define([
                 listitem = dom.create("li");
                 image = images[i];
                 link = dom.create("a", {
-                    "href": "file?target=internal&guid=" + image.getGuid(),
+                    "href": "file?target=internal&guid=" + image.getGuid() + "&cacheBust=" + Date.now(),
                     "data-lightbox": "mx-lightbox-" + this._boxName
                 });
 
@@ -96,7 +96,7 @@ define([
                 } else {
                     //make your own thumbnail
                     img = dom.create("img", {
-                        "src": "file?target=internal&guid=" + image.getGuid()
+                        "src": "file?target=internal&guid=" + image.getGuid() + "&cacheBust=" + Date.now()
                     });
                     domStyle.set(img, {
                         "width": "100px",
@@ -120,13 +120,13 @@ define([
 
 
         // Reset subscriptions.
-        _resetSubscriptions: function () {
+        _resetSubscriptions: function() {
             logger.debug(this.id + "._resetSubscriptions");
             var _objectHandle = null;
 
             // Release handles on previous object, if any.
             if (this._handles) {
-                this._handles.forEach(lang.htich(this, function (handle, i) {
+                this._handles.forEach(lang.hitch(this, function(handle, i) {
                     this.unsubscribe(handle);
                 }));
                 this._handles = [];
@@ -138,15 +138,15 @@ define([
                     guid: this._contextObj.getGuid(),
                     callback: lang.hitch(this, this._fetchImages)
                 });
-                this._handles = [ _objectHandle ];
+                this._handles = [_objectHandle];
             }
         },
 
-        _executeCallback: function (cb, from) {
-          logger.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
-          if (cb && typeof cb === "function") {
-            cb();
-          }
+        _executeCallback: function(cb, from) {
+            logger.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
+            if (cb && typeof cb === "function") {
+                cb();
+            }
         }
     });
 });
