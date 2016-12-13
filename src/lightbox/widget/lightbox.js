@@ -122,27 +122,23 @@ define([
         // Reset subscriptions.
         _resetSubscriptions: function () {
             logger.debug(this.id + "._resetSubscriptions");
-            var _objectHandle = null,
-                _attrHandle = null,
-                _validationHandle = null;
+            var _objectHandle = null;
 
             // Release handles on previous object, if any.
             if (this._handles) {
-                this._handles.forEach(function (handle, i) {
-                    mx.data.unsubscribe(handle);
-                });
+                this._handles.forEach(lang.htich(this, function (handle, i) {
+                    this.unsubscribe(handle);
+                }));
                 this._handles = [];
             }
 
             // When a mendix object exists create subscribtions.
             if (this._contextObj) {
-
-                _objectHandle = mx.data.subscribe({
+                _objectHandle = this.subscribe({
                     guid: this._contextObj.getGuid(),
                     callback: lang.hitch(this, this._fetchImages)
                 });
-
-                this._handles = [_objectHandle];
+                this._handles = [ _objectHandle ];
             }
         },
 
