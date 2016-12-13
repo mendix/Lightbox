@@ -30,7 +30,7 @@ define([
                 this._resetSubscriptions();
                 this._setBoxName(callback);
             } else {
-                mendix.lang.nullExec(callback);
+                this._executeCallback(callback, "update");
             }
         },
 
@@ -45,7 +45,7 @@ define([
                 });
             } else if (!this._contextObj && (xpath.indexOf("[%CurrentObject%]") > -1)) {
                 console.warn("No context for xpath, not fetching.");
-                mendix.lang.nullExec(callback);
+                this._executeCallback(callback, "_fetchImages");
             } else {
                 mx.data.get({
                     xpath: xpath,
@@ -115,7 +115,7 @@ define([
             domConstruct.empty(this.domNode);
             domConstruct.place(imgList, this.domNode);
 
-            mendix.lang.nullExec(callback);
+            this._executeCallback(callback, "_renderList");
         },
 
 
@@ -144,6 +144,13 @@ define([
 
                 this._handles = [_objectHandle];
             }
+        },
+
+        _executeCallback: function (cb, from) {
+          logger.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
+          if (cb && typeof cb === "function") {
+            cb();
+          }
         }
     });
 });

@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="lightbox.widget.lightbox" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
-	<name>Lightbox</name>
-	<description>Lightbox to enlarge images in your browser window</description>
-	<icon></icon>
-	<properties>
-		<property key="lbImage" type="entity">
-			<caption>Lightbox image</caption>
-			<category>Data source</category>
-			<description>Entity of the images to add to the lightbox. Should be a descendant of "System.Image".</description>
-		</property>
-		<property key="lbImageConstraint" type="entityConstraint" required="false" entityProperty="lbImage">
-			<caption>Image constraint</caption>
-			<category>Data source</category>
-			<description>Constraint on the fetch</description>
-		</property>
-		<property key="boxName" type="string" required="true">
-			<caption>Lightbox name</caption>
-			<category>Data source</category>
-			<description>The name used internally for the lightbox.</description>
-		</property>
-		<property key="lbImageGroup" type="entity" required="false">
-			<caption>Lightbox group</caption>
-			<category>Data source</category>
-			<description>Entity of the image group (used for grouping images in lightbox albums)</description>
-		</property>
-		<property key="dynamicBoxName" entityProperty="lbImageGroup" pathType="reference" allowNonPersistableEntities="true" type="attribute" required="false" isPath="optional" defaultValue="">
-			<caption>Dynamic Box Name</caption>
-			<category>Data source</category>
-			<description>(Optional) This will override the Lightbox name that is used internally. Reference from Lightbox group.</description>
-			<attributeTypes>
-				<attributeType name="AutoNumber"></attributeType>
-				<attributeType name="Integer"></attributeType>
+    <name>Lightbox</name>
+    <description>Lightbox to enlarge images in your browser window</description>
+    <icon></icon>
+    <properties>
+        <property key="lbImage" type="entity">
+            <caption>Lightbox image</caption>
+            <category>Data source</category>
+            <description>Entity of the images to add to the lightbox. Should be a descendant of "System.Image".</description>
+        </property>
+        <property key="lbImageConstraint" type="entityConstraint" required="false" entityProperty="lbImage">
+            <caption>Image constraint</caption>
+            <category>Data source</category>
+            <description>Constraint on the fetch</description>
+        </property>
+        <property key="boxName" type="string" required="true">
+            <caption>Lightbox name</caption>
+            <category>Data source</category>
+            <description>The name used internally for the lightbox.</description>
+        </property>
+        <property key="lbImageGroup" type="entity" required="false">
+            <caption>Lightbox group</caption>
+            <category>Data source</category>
+            <description>Entity of the image group (used for grouping images in lightbox albums)</description>
+        </property>
+        <property key="dynamicBoxName" entityProperty="lbImageGroup" pathType="reference" allowNonPersistableEntities="true" type="attribute" required="false" isPath="optional" defaultValue="">
+            <caption>Dynamic Box Name</caption>
+            <category>Data source</category>
+            <description>(Optional) This will override the Lightbox name that is used internally. Reference from Lightbox group.</description>
+            <attributeTypes>
+                <attributeType name="AutoNumber"></attributeType>
+                <attributeType name="Integer"></attributeType>
                 <attributeType name="Long"></attributeType>
- 				<attributeType name="String"></attributeType>
- 			</attributeTypes>
-		</property>        
-	</properties>
+                <attributeType name="String"></attributeType>
+            </attributeTypes>
+        </property>
+    </properties>
 </widget>
