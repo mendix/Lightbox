@@ -27,11 +27,11 @@ define([
             logger.debug(this.id + ".update");
             if (obj) {
                 this._contextObj = obj;
-                this._resetSubscriptions();
-                this._setBoxName(callback);
             } else {
-                this._executeCallback(callback, "update");
+                this._contextObj = null;
             }
+            this._resetSubscriptions();
+            this._setBoxName(callback);
         },
 
         _fetchImages: function(callback) {
