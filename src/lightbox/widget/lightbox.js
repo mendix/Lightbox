@@ -83,7 +83,7 @@ define([
                 listitem = dom.create("li");
                 image = images[i];
                 link = dom.create("a", {
-                    "href": "file?target=internal&guid=" + image.getGuid() + "&cacheBust=" + Date.now(),
+                    "href": mx.appUrl + "file?target=internal&guid=" + image.getGuid() + "&cacheBust=" + Date.now(),
                     "data-lightbox": "mx-lightbox-" + this._boxName
                 });
 
@@ -96,7 +96,7 @@ define([
                 } else {
                     //make your own thumbnail
                     img = dom.create("img", {
-                        "src": "file?target=internal&guid=" + image.getGuid() + "&cacheBust=" + Date.now()
+                        "src": mx.appUrl + "file?target=internal&guid=" + image.getGuid() + "&cacheBust=" + Date.now()
                     });
                     domStyle.set(img, {
                         "width": "100px",
